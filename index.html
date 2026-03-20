@@ -1,165 +1,174 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Payaso Cute</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payaso Cute</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, #ff4d6d, #5a0000);
+      font-family: 'Comic Sans MS', cursive;
+      cursor: pointer;
+    }
 
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(circle, #ff4d6d, #5a0000);
-    font-family: 'Comic Sans MS', cursive;
-}
+    /* CONTENEDOR DE FONDO */
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
 
-/* CONTENEDOR DE FONDO */
-.background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 0;
-}
+    /* ELEMENTOS FLOTANTES */
+    .float {
+      position: absolute;
+      bottom: -100px;
+      font-size: 30px;
+      animation: subir linear infinite;
+    }
 
-/* ELEMENTOS FLOTANTES */
-.float {
-    position: absolute;
-    bottom: -100px;
-    font-size: 30px;
-    animation: subir linear infinite;
-}
-
-/* ANIMACIÓN */
-@keyframes subir {
-    from {
+    /* ANIMACIÓN */
+    @keyframes subir {
+      from {
         transform: translateY(0);
         opacity: 1;
-    }
-    to {
+      }
+      to {
         transform: translateY(-120vh);
         opacity: 0;
+      }
     }
-}
 
-/* NOTA */
-.note {
-    background: #fff8dc;
-    padding: 10px 20px;
-    border: 2px dashed #333;
-    transform: rotate(-3deg);
-    margin-bottom: 30px;
-    font-size: 20px;
-    z-index: 2;
-}
+    /* NOTA */
+    .note {
+      background: #fff8dc;
+      padding: 10px 20px;
+      border: 2px dashed #333;
+      transform: rotate(-3deg);
+      margin-bottom: 30px;
+      font-size: 20px;
+      z-index: 2;
+    }
 
-/* CARD */
-.card {
-    width: 250px;
-    height: 300px;
-    perspective: 1000px;
-    z-index: 2;
-}
+    /* CARD */
+    .card {
+      width: 250px;
+      height: 300px;
+      perspective: 1000px;
+      z-index: 2;
+    }
 
-.inner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-    cursor: pointer;
-}
+    .inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
 
-.card.flipped .inner {
-    transform: rotateY(180deg);
-}
+    .card.flipped .inner {
+      transform: rotateY(180deg);
+    }
 
-.front, .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    backface-visibility: hidden;
-}
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      backface-visibility: hidden;
+    }
 
-.front img {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-}
+    .front img {
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+    }
 
-.back {
-    background: #fff;
-    transform: rotateY(180deg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    text-align: center;
-    font-size: 18px;
-    border: 2px solid #000;
-}
-</style>
+    .back {
+      background: #fff;
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+      border: 2px solid #000;
+    }
+  </style>
 </head>
 
-<body>
+<body onclick="playMusic()">
 
-<!-- AUDIO QUE SE REPRODUCE AUTOMÁTICAMENTE AL CARGAR LA PÁGINA -->
-<audio id="background-music" autoplay loop>
-  <source src="real.mp3" type="audio/mp3">
-  Tu navegador no soporta la etiqueta de audio.
-</audio>
+  <!-- AUDIO QUE NO SE REPRODUCE AUTOMÁTICAMENTE -->
+  <audio id="background-music" loop>
+    <source src="tu-musica.mp3" type="audio/mp3">
+    Tu navegador no soporta la etiqueta de audio.
+  </audio>
 
-<div class="background" id="bg"></div>
+  <div class="background" id="bg"></div>
 
-<div class="note">Toca la imagen mi marscia 💌</div>
+  <div class="note">💌 Toca la imagen</div>
 
-<div class="card" onclick="flipCard(this)">
+  <div class="card" onclick="flipCard(this)">
     <div class="inner">
-        <div class="front">
-            <img src="familia.jpeg" alt="Imagen">
-        </div>
-        <div class="back">
-            Eres fuego en invierno... 
-            En enero, brasas. Mi corazón también arde por ti. 💖
-        </div>
+      <div class="front">
+        <img src="familia.jpeg" alt="Imagen">
+      </div>
+      <div class="back">
+        Eres fuego en invierno... 
+        En enero, brasas. Mi corazón también arde por ti. 💖
+      </div>
     </div>
-</div>
+  </div>
 
-<script>
-function flipCard(card) {
-    card.classList.toggle("flipped");
-}
+  <script>
+    function flipCard(card) {
+      card.classList.toggle("flipped");
+    }
 
-/* GENERAR GLOBOS Y PAYASOS */
-const bg = document.getElementById("bg");
+    /* GENERAR GLOBOS Y PAYASOS */
+    const bg = document.getElementById("bg");
 
-const elementos = ["🎈","🤡","💖","🎈","🤡","💘","💗"];
+    const elementos = ["🎈", "🤡", "💖", "🎈", "🤡", "💘", "💗"];
 
-function crearElemento() {
-    const el = document.createElement("div");
-    el.classList.add("float");
+    function crearElemento() {
+      const el = document.createElement("div");
+      el.classList.add("float");
 
-    el.innerText = elementos[Math.floor(Math.random() * elementos.length)];
+      el.innerText = elementos[Math.floor(Math.random() * elementos.length)];
 
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.animationDuration = (4 + Math.random() * 6) + "s";
-    el.style.fontSize = (20 + Math.random() * 40) + "px";
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.animationDuration = (4 + Math.random() * 6) + "s";
+      el.style.fontSize = (20 + Math.random() * 40) + "px";
 
-    bg.appendChild(el);
+      bg.appendChild(el);
 
-    setTimeout(() => {
+      setTimeout(() => {
         el.remove();
-    }, 10000);
-}
+      }, 10000);
+    }
 
-/* LOOP INFINITO */
-setInterval(crearElemento, 300);
-</script>
+    /* LOOP INFINITO */
+    setInterval(crearElemento, 300);
+
+    // Función para reproducir la música al hacer clic
+    function playMusic() {
+      const music = document.getElementById('background-music');
+      music.play();
+      // Después de que el audio se haya iniciado, evitamos más clics
+      document.body.onclick = null;
+    }
+  </script>
 
 </body>
 </html>
